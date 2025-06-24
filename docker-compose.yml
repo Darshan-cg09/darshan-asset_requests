@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  employee-asset:
+    build:
+      context: ./Employee-Asset
+      dockerfile: Dockerfile
+    ports:
+      - "9085:80"
+
+  hr-asset:
+    build:
+      context: ./hr-Asset
+      dockerfile: Dockerfile
+    ports:
+      - "9086:80"
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "5080:5080"
+    depends_on:
+      - postgres
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=admin123
+      - DB_NAME=asset_management
+      - DB_HOST=postgres
+      - DB_PORT=5432
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "6085:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=asset_management
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
+
