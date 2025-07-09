@@ -7,7 +7,7 @@ const port = 3602;
 // PostgreSQL connection configuration
 const pool = new Pool({
     user: 'postgres',
-    host: 'darshan-asset_requests_postgres_1',
+    host: 'postgres',
     database: 'asset_management',
     password: 'admin123',
     port: 5432,
